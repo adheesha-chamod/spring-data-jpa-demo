@@ -1,0 +1,41 @@
+package com.demo.springDataJpaDemo.repository;
+
+import com.demo.springDataJpaDemo.entity.Student;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest
+//@DataJpaTest
+class StudentRepositoryTest {
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Test
+    public void test_saveStudent() {
+        Student student = Student.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .emailId("john2@email.com")
+                .guardianName("John Wick")
+                .guardianEmail("wick@emil.com")
+                .guardianMobile("1234567890")
+                .build();
+
+        studentRepository.save(student);
+    }
+
+    @Test
+    public void test_getStudents() {
+        List<Student> students = studentRepository.findAll();
+        for (Student student : students) {
+            System.out.println(student);
+        }
+    }
+}
