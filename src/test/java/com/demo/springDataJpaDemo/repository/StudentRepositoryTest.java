@@ -41,9 +41,9 @@ class StudentRepositoryTest {
                 .build();
 
         Student student = Student.builder()
-                .firstName("John")
+                .firstName("Jane")
                 .lastName("Doe")
-                .emailId("john3@email.com")
+                .emailId("jane@email.com")
                 .guardian(guardian)
                 .build();
 
@@ -56,5 +56,34 @@ class StudentRepositoryTest {
         for (Student student : students) {
             System.out.println(student);
         }
+    }
+
+    @Test
+    public void test_getStudentsByFirstName() {
+        List<Student> students = studentRepository.findAllByFirstName("John");
+        for (Student student : students) {
+            System.out.println(student);
+        }
+    }
+
+    @Test
+    public void test_getStudentsByFirstNameContaining() {
+        List<Student> students = studentRepository.findAllByFirstNameContaining("oH");
+        for (Student student : students) {
+            System.out.println(student);
+        }
+    }
+
+    @Test
+    public void test_getStudentsByGuardianEmail() {
+        List<Student> students = studentRepository.findAllByGuardianEmail("wick@emil.com");
+        for (Student student : students) {
+            System.out.println(student);
+        }
+    }
+
+    @Test
+    public void test_getStudentsByFirstNameAndLastName() {
+        System.out.println(studentRepository.findFirstByFirstNameAndLastName("Jane", "Doe"));
     }
 }
