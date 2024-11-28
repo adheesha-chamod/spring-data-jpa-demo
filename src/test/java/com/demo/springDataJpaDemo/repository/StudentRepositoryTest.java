@@ -86,4 +86,15 @@ class StudentRepositoryTest {
     public void test_getStudentsByFirstNameAndLastName() {
         System.out.println(studentRepository.findFirstByFirstNameAndLastName("Jane", "Doe"));
     }
+
+    @Test
+    public void test_getStudentByEmail() {
+        Student student = studentRepository.getStudentByEmailAddress("jane@email.com");
+        System.out.println(student);
+    }
+
+    @Test
+    public void test_getStudentFirstNameByEmail() {
+        System.out.println(studentRepository.getStudentFirstNameByEmailAddress("jane@email.com"));
+    }
 }
