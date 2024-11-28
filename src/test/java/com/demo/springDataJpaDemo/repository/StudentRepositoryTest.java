@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -121,4 +122,37 @@ class StudentRepositoryTest {
         Student student = studentRepository.getStudentByEmailAddressNativeNamedParam("jane@email.com");
         System.out.println(student);
     }
+
+
+    // update and delete
+    @Test
+    public void test_updateStudentFirstNameByEmailId() {
+        int count = studentRepository.updateStudentFirstNameByEmailId("JaneF", "jane@email.com");
+        System.out.println(count);  // number of rows affected
+    }
+
+    @Test
+    public void test_deleteStudentByEmailId() {
+        System.out.println(studentRepository.deleteStudentByEmailId("john3@email.com"));
+    }
+
+
+    // special -> update by save
+    // transactional managed automatically | less efficient -> fetch and save, not directly update
+    @Test
+    public void test_updateStudent() {
+        Optional<Student> optionalStudent = studentRepository.findById(1L);
+        if (optionalStudent.isEmpty()) {
+            System.out.println("Student not found");
+            return;
+        }
+
+        Student student = optionalStudent.get();
+        student.setFirstName("Saman");
+        student.setLastName("Perera");
+
+        System.out.println(studentRepository.save(student));
+    }
+
+    // jpa relationships
 }
