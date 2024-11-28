@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
+    // custom
     List<Student> findAllByFirstName(String firstName);
 
     List<Student> findAllByFirstNameContaining(String name);
@@ -19,6 +20,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> findFirstByFirstNameAndLastName(String firstName, String lastName);
 
 
+    // query
     Student findStudentByEmailId(String emailId);
 
     // JPQL(Java Persistence Query Language) query -> not SQL
@@ -27,4 +29,12 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     @Query("SELECT s.firstName FROM Student s WHERE s.emailId = ?1")
     String getStudentFirstNameByEmailAddress(String emailId);
+
+
+    // native
+    @Query(
+            value = "SELECT * FROM students s WHERE s.email_address = ?1",
+            nativeQuery = true
+    )
+    Student getStudentByEmailAddressNative(String emailId);
 }

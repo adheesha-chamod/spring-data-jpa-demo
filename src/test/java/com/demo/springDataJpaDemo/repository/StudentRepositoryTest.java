@@ -18,6 +18,7 @@ class StudentRepositoryTest {
     @Autowired
     private StudentRepository studentRepository;
 
+    // pre-build
     @Test
     public void test_saveStudent() {
         Student student = Student.builder()
@@ -58,6 +59,7 @@ class StudentRepositoryTest {
         }
     }
 
+    // custom
     @Test
     public void test_getStudentsByFirstName() {
         List<Student> students = studentRepository.findAllByFirstName("John");
@@ -87,6 +89,8 @@ class StudentRepositoryTest {
         System.out.println(studentRepository.findFirstByFirstNameAndLastName("Jane", "Doe"));
     }
 
+    // query -> when we need to define custom query without following spring data's naming convention
+    // customization | efficiency | readability and maintainability | support for complex conditions
     @Test
     public void test_getStudentByEmail() {
         Student student = studentRepository.getStudentByEmailAddress("jane@email.com");
@@ -96,5 +100,13 @@ class StudentRepositoryTest {
     @Test
     public void test_getStudentFirstNameByEmail() {
         System.out.println(studentRepository.getStudentFirstNameByEmailAddress("jane@email.com"));
+    }
+
+    // native -> when we need to have complex queries in sql
+    // customization | efficiency | readability and maintainability | support for complex conditions
+    @Test
+    public void test_getStudentByEmailNative() {
+        Student student = studentRepository.getStudentByEmailAddressNative("jane@email.com");
+        System.out.println(student);
     }
 }
