@@ -27,7 +27,8 @@ public class CourseMaterial {
 
     @OneToOne(
             cascade = CascadeType.ALL,      // in sql -> ON DELETE CASCADE, ON UPDATE CASCADE
-            fetch = FetchType.LAZY          // LAZY -> fetch data from parent only when needed | EAGER -> fetch data from parent as well
+            fetch = FetchType.LAZY,         // LAZY -> fetch data from parent only when needed | EAGER -> fetch data from parent as well
+            optional = false                // default -> true | false -> courseMaterial must have a course
     )
     @JoinColumn(
             name = "course_id",
