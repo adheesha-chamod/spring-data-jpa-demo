@@ -26,10 +26,7 @@ class StudentRepositoryTest {
         Student student = Student.builder()
                 .firstName("John")
                 .lastName("Doe")
-                .emailId("john2@email.com")
-//                .guardianName("John Wick")
-//                .guardianEmail("wick@emil.com")
-//                .guardianMobile("1234567890")
+                .emailId("john@email.com")
                 .build();
 
         studentRepository.save(student);
@@ -38,8 +35,8 @@ class StudentRepositoryTest {
     @Test
     public void test_saveStudentWithGuardian() {
         Guardian guardian = Guardian.builder()
-                .name("John Wick")
-                .email("john2@email.com")
+                .name("Martha")
+                .email("martha@email.com")
                 .mobile("1234567890")
                 .build();
 
@@ -73,7 +70,7 @@ class StudentRepositoryTest {
 
     @Test
     public void test_getStudentsByFirstNameContaining() {
-        List<Student> students = studentRepository.findAllByFirstNameContaining("oH");
+        List<Student> students = studentRepository.findAllByFirstNameContaining("oh");
         for (Student student : students) {
             System.out.println(student);
         }
@@ -81,7 +78,7 @@ class StudentRepositoryTest {
 
     @Test
     public void test_getStudentsByGuardianEmail() {
-        List<Student> students = studentRepository.findAllByGuardianEmail("wick@emil.com");
+        List<Student> students = studentRepository.findAllByGuardianEmail("martha@email.com");
         for (Student student : students) {
             System.out.println(student);
         }
@@ -93,8 +90,10 @@ class StudentRepositoryTest {
     }
 
 
-    // @Query -> when we need to define custom query without following spring data's naming convention
-    // customization | efficiency | readability and maintainability | support for complex conditions
+    /**
+     * '@Query' -> when need to define custom query without following spring data's naming convention
+     * benefits: customization | efficiency | readability | maintainability | support for complex conditions
+     */
     @Test
     public void test_getStudentByEmail() {
         Student student = studentRepository.getStudentByEmailAddress("jane@email.com");
@@ -107,8 +106,10 @@ class StudentRepositoryTest {
     }
 
 
-    // native -> when we need to have complex queries in sql
-    // customization | efficiency | readability and maintainability | support for complex conditions
+    /**
+     * native -> when we need to have complex queries in sql
+     * benefits: customization | efficiency | readability | maintainability | support for complex conditions
+     */
     @Test
     public void test_getStudentByEmailNative() {
         Student student = studentRepository.getStudentByEmailAddressNative("jane@email.com");
@@ -126,33 +127,33 @@ class StudentRepositoryTest {
 
     // update and delete
     @Test
-    public void test_updateStudentFirstNameByEmailId() {
-        int count = studentRepository.updateStudentFirstNameByEmailId("JaneF", "jane@email.com");
-        System.out.println(count);  // number of rows affected
+    public void test_updateStudentFirstNameByEmailId() {;
+        int rows = studentRepository.updateStudentFirstNameByEmailId("Jane F.", "jane@email.com");
+        System.out.println(rows);
     }
 
     @Test
     public void test_deleteStudentByEmailId() {
-        System.out.println(studentRepository.deleteStudentByEmailId("john3@email.com"));
+        int rows = studentRepository.deleteStudentByEmailId("john3@email.com");
+        System.out.println(rows);
     }
 
 
-    // special -> update by save
-    // transactional managed automatically | less efficient -> fetch and save, not directly update
+    /**
+     * special case -> update by save
+     * transactions managed automatically | less efficient -> fetch and save, not directly update
+     */
     @Test
     public void test_updateStudent() {
-        Optional<Student> optionalStudent = studentRepository.findById(1L);
+        Optional<Student> optionalStudent = studentRepository.findById(2L);
         if (optionalStudent.isEmpty()) {
             System.out.println("Student not found");
             return;
         }
 
         Student student = optionalStudent.get();
-        student.setFirstName("Saman");
-        student.setLastName("Perera");
+        student.setFirstName("Jane");
 
         System.out.println(studentRepository.save(student));
     }
-
-    // jpa relationships
 }

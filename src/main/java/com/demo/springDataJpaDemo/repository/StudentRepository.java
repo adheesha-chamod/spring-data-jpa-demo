@@ -51,16 +51,18 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
 
     // updating and deleting data
-    // update & delete -> not support by naming convention, cannot be derived directly from method names, should be defined using @Query
-    // for update this is not a good practice -> use save() method instead
+    /**
+     * update & delete -> not support by naming convention | cannot be derived directly from method names | should be defined using @Query
+     * not a good practice -> use save() method instead
+     * return value -> number of rows affected
+     */
     @Modifying
     @Transactional
     @Query(
             value = "UPDATE students SET first_name = ?1 WHERE email_address = ?2",
             nativeQuery = true
     )
-    int updateStudentFirstNameByEmailId(String firstName, String emailId);      // return value -> number of rows affected
-
+    int updateStudentFirstNameByEmailId(String firstName, String emailId);
 
     @Modifying
     @Transactional
@@ -68,5 +70,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             value = "DELETE FROM students WHERE email_address = ?1",
             nativeQuery = true
     )
-    int deleteStudentByEmailId(String emailId);     // returns value -> number of rows affected
+    int deleteStudentByEmailId(String emailId);
 }
