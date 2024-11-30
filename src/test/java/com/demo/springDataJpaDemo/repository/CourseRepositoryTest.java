@@ -1,6 +1,7 @@
 package com.demo.springDataJpaDemo.repository;
 
 import com.demo.springDataJpaDemo.entity.Course;
+import com.demo.springDataJpaDemo.entity.Student;
 import com.demo.springDataJpaDemo.entity.Teacher;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,12 +57,37 @@ class CourseRepositoryTest {
         courses.forEach(course -> System.out.println(course));
     }
 
-    @Test void test_getSortedCoursesPage() {
+    @Test
+    public void test_getSortedCoursesPage() {
         Sort sort = Sort.by(Sort.Direction.DESC, "title");
         Pageable pageRequest = PageRequest.of(0, 4, sort);
         Page<Course> page1 = courseRepository.findAll(pageRequest);
 
         List<Course> courses = page1.getContent();
         courses.forEach(course -> System.out.println(course));
+    }
+
+    @Test
+    public void test_saveCourseWithStudentAndTeacher() {
+        Teacher teacher = Teacher.builder()
+                .firstName("Liv")
+                .lastName("Morgan")
+                .build();
+
+        Student student = Student.builder()
+                .firstName("Sasha")
+                .lastName("Banks")
+                .emailId("shasha@email.com")
+                .build();
+
+        Course course = Course.builder()
+                .title("AI")
+                .credit(3)
+                .teacher(teacher)
+                .build();
+
+        course.addStudent(student);
+
+        courseRepository.save(course);
     }
 }
